@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirella Glow - Admin Dashboard</title>
+    <style>
+        /* --- Root Variables & Theme Definition --- */
+        :root {
+            --primary-gold: #D4AF37;
+            --primary-gold-hover: #C5A059;
+            --slate-black: #121212;
+            --sidebar-bg: #1E1E24;
+            --sidebar-hover: #2A2A32;
+            --bg-light: #F4F6F9;
+            --card-bg: #FFFFFF;
+            --text-dark: #222222;
+            --text-muted: #6C757D;
+            --border-color: #E2E8F0;
+            
+            /* Status Colors */
+            --status-success-bg: #E8F5E9;
+            --status-success-text: #2E7D32;
+            --status-warning-bg: #FFF3E0;
+            --status-warning-text: #ED6C02;
+            --status-danger-bg: #FFEBEE;
+            --status-danger-text: #D32F2F;
+
+            --sidebar-width: 260px;
+            --transition-speed: 0.3s;
+            --radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- Global Reset & Mobile-First Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Inter, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* --- Security & Auth Screen --- */
+        .auth-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--slate-black) 0%, #2A2A35 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 16px;
+            transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+        }
+
+        .auth-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .auth-card {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-header img {
+            height: 60px;
+            margin-bottom: 8px;
+        }
+
+        .auth-header h2 {
+            font-size: 1.25rem;
+            color: var(--slate-black);
+        }
+
+        .auth-header p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .auth-error-msg {
+            display: none;
+            background-color: var(--status-danger-bg);
+            color: var(--status-danger-text);
+            padding: 10px 12px;
+            border-radius: var(--radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            border: 1px solid rgba(211, 47, 47, 0.2);
+        }
+
+        .auth-error-msg.visible {
+            display: block;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        .auth-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+        }
+
+        .dashboard-container.protected {
+            display: none !important;
+        }
+
+        /* --- Mobile-First Layout Container --- */
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Off-Canvas Sidebar Navigation --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .brand-header img {
+            height: 60px;
+        }
+
+        .brand-title h2 {
+            font-size: 1rem;
+            color: #FFFFFF;
+        }
+
+        .brand-title span {
+            font-size: 0.7rem;
+            color: var(--primary-gold);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-menu {
+            flex: 1;
+            padding: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: #A0A0AB;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s, color 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--sidebar-hover);
+            color: #FFFFFF;
+        }
+
+        .nav-item.active {
+            border-left-color: var(--primary-gold);
+            color: var(--primary-gold);
+        }
+
+        .user-profile {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-gold);
+            color: var(--slate-black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .user-info h4 {
+            font-size: 0.85rem;
+            color: #FFFFFF;
+        }
+
+        .user-info p {
+            font-size: 0.75rem;
+            color: #A0A0AB;
+        }
+
+        .logout-btn {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: #A0A0AB;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .logout-btn:hover {
+            color: var(--primary-gold);
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            flex: 1;
+            margin-left: 0;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            transition: margin-left var(--transition-speed) ease;
+        }
+
+        /* --- Top Navigation Bar --- */
+        .top-navbar {
+            background-color: var(--card-bg);
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .top-navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hamburger-btn {
+            display: block;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--slate-black);
+        }
+
+        .navbar-brand-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-light);
+            padding: 8px 14px;
+            border-radius: 20px;
+            width: 100%;
+            border: 1px solid transparent;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--primary-gold);
+            background-color: #FFFFFF;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            margin-left: 8px;
+            font-size: 0.85rem;
+        }
+
+        .top-navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: auto;
+        }
+
+        .notification-icon {
+            position: relative;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .notification-icon .badge {
+            position: absolute;
+            top: -4px;
+            right: -6px;
+            background-color: var(--status-danger-text);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        /* --- Content Body & Dynamic Tabs --- */
+        .content-body {
+            padding: 16px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .page-title {
+            margin-bottom: 16px;
+        }
+
+        .page-title h1 {
+            font-size: 1.3rem;
+            color: var(--slate-black);
+        }
+
+        .page-title p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .page-title-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        /* --- Mobile-First Metrics Grid --- */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background-color: var(--card-bg);
+            padding: 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .metric-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: rgba(212, 175, 55, 0.15);
+            color: var(--primary-gold-hover);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .metric-details h3 {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--slate-black);
+            margin: 2px 0;
+        }
+
+        .trend {
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .trend.positive { color: var(--status-success-text); }
+        .trend.warning { color: var(--status-warning-text); }
+        .trend.neutral { color: var(--text-muted); }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            margin-bottom: 12px;
+        }
+
+        .card-header h2 {
+            font-size: 1rem;
+            color: var(--slate-black);
+        }
+
+        /* --- Mobile-Optimized Responsive Tables --- */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .data-table th, .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background-color: #FAFBFD;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #F8FAFC;
+        }
+
+        .img-thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+            background-color: #EEE;
+        }
+
+        /* --- Status Badges --- */
+        .badge-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-success {
+            background-color: var(--status-success-bg);
+            color: var(--status-success-text);
+        }
+
+        .status-warning {
+            background-color: var(--status-warning-bg);
+            color: var(--status-warning-text);
+        }
+
+        .status-danger {
+            background-color: var(--status-danger-bg);
+            color: var(--status-danger-text);
+        }
+
+        /* --- Buttons & Action Controls --- */
+        .btn {
+            padding: 8px 14px;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: opacity 0.2s, background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-hover));
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background-color: #E2E8F0;
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #CBD5E1;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1EBE5D;
+        }
+
+        .btn-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 4px 6px;
+        }
+
+        .btn-action:hover {
+            opacity: 0.7;
+        }
+
+        /* --- Modal Styling --- */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            padding: 12px;
+            transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 550px;
+            border-radius: var(--radius);
+            position: relative;
+            z-index: 2001;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1rem;
+            color: var(--slate-black);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .modal-body {
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 14px 16px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* --- Form Controls & Image Preview --- */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-gold);
+        }
+
+        .image-preview-container {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .image-preview {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius);
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        /* --- Responsive Layout & Desktop Navbar Fix --- */
+        @media (min-width: 576px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-row {
+                flex-direction: row;
+                gap: 12px;
+            }
+
+            .form-row .form-group {
+                flex: 1;
+            }
+
+            .page-title-row {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .sidebar {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay {
+                display: none !important;
+            }
+
+            .main-content {
+                margin-left: var(--sidebar-width);
+            }
+
+            .hamburger-btn {
+                display: none;
+            }
+
+            /* FIXED NAVBAR DESKTOP FLEX LAYOUT */
+            .top-navbar {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                height: 70px;
+                padding: 0 28px;
+                gap: 20px;
+            }
+
+            .search-box {
+                max-width: 450px;
+                flex: 1;
+                margin: 0 20px;
+            }
+
+            .content-body {
+                padding: 28px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 1.6rem;
+            }
+
+            .page-title p {
+                font-size: 0.9rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .btn {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Security Authentication Screen -->
+    <div class="auth-wrapper" id="loginScreen">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div><img src="Logo-transparent.png" alt="Mirella Glow Logo"></div> 
+                <h2>Mirella Glow</h2>
+                <p>Admin Portal Authentication</p>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="auth-error-msg" id="authErrorMsg">
+                    ⚠️ Invalid email address or password.
+                </div>
+                <div class="form-group">
+                    <label for="adminEmail">Email Address</label>
+                    <input type="email" id="adminEmail" class="form-control" required placeholder="admin@mirellaglow.com" value="admin@mirellaglow.com">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" class="form-control" required placeholder="••••••••" value="sana123">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In to Dashboard</button>
+            </form>
+            <div class="auth-footer">
+                <small>Default Access: <b>admin@mirellaglow.com</b> / <b>sana123</b></small>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-container protected">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar(false)"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-header">
+                <div><img src="Logo-transparent.png" alt="Mirella Glow Logo"></div> 
+                <div class="brand-title">
+                    <h2>Mirella Glow</h2>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="products">
+                    <span class="icon">🛍️</span>
+                    <span>Products</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="orders">
+                    <span class="icon">📦</span>
+                    <span>WhatsApp Orders</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="settings">
+                    <span class="icon">⚙️</span>
+                    <span>Store Settings</span>
+                </a>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar">SS</div>
+                <div class="user-info">
+                    <h4>Sana Sakina</h4>
+                    <p>Store Administrator</p>
+                </div>
+                <button class="logout-btn" title="Logout" onclick="handleLogout()">🚪</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navigation Bar -->
+            <header class="top-navbar">
+                <div class="top-navbar-left">
+                    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar(true)">☰</button>
+                    <h2 class="navbar-brand-text">Mirella Glow</h2>
+                </div>
+
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="globalSearch" placeholder="Search orders, products, or customers..." onkeyup="handleGlobalSearch(event)">
+                </div>
+
+                <div class="top-navbar-right">
+                    <div class="notification-icon" title="New Orders">
+                        🔔
+                        <span class="badge" id="notificationBadge">0</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
+                </div>
+            </header>
+
+            <!-- Dynamic Tab Content -->
+            <div class="content-body">
+                <!-- TAB 1: Analytics / Dashboard Overview -->
+                <section id="tab-dashboard" class="tab-content active">
+                    <div class="page-title">
+                        <h1>Analytics Overview</h1>
+                        <p>Welcome back, Sana! Here is what's happening with Mirella Glow today.</p>
+                    </div>
+
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon">₹</div>
+                            <div class="metric-details">
+                                <h3>Total Sales</h3>
+                                <p class="metric-value" id="metricTotalSales">₹0</p>
+                                <span class="trend positive">Live updating</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🛍️</div>
+                            <div class="metric-details">
+                                <h3>Active Products</h3>
+                                <p class="metric-value" id="metricActiveProducts">0</p>
+                                <span class="trend neutral">In store inventory</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">📦</div>
+                            <div class="metric-details">
+                                <h3>Orders Pending</h3>
+                                <p class="metric-value" id="metricPendingOrders">0</p>
+                                <span class="trend warning">Requires action</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">📅</div>
+                            <div class="metric-details">
+                                <h3>Appointments</h3>
+                                <p class="metric-value" id="metricAppointments">0</p>
+                                <span class="trend positive">Booked this week</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recent Activity (Latest Orders)</h2>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Items</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentOrdersTableBody">
+                                    <!-- Populated dynamically via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: Product Management Module -->
+                <section id="tab-products" class="tab-content">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Product Management</h1>
+                            <p>Manage store inventory, catalog, pricing, and status.</p>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Stock Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTableBody">
+                                    <!-- Populated dynamically via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: WhatsApp Orders & Inventory Tracker -->
+                <section id="tab-orders" class="tab-content">
+                    <div class="page-title">
+                        <h1>WhatsApp Orders & Inquiry Tracker</h1>
+                        <p>Track incoming direct sales inquiries and send instant WhatsApp updates.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Phone Number</th>
+                                        <th>Purchased Items</th>
+                                        <th>Total</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTableBody">
+                                    <!-- Populated dynamically via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: Store Settings -->
+                <section id="tab-settings" class="tab-content">
+                    <div class="page-title">
+                        <h1>Store Settings</h1>
+                        <p>Configure store details and preferences.</p>
+                    </div>
+                    <div class="card">
+                        <form style="max-width: 600px;" onsubmit="event.preventDefault(); alert('Settings saved!');">
+                            <div class="form-group">
+                                <label>Store Name</label>
+                                <input type="text" class="form-control" value="Mirella Glow">
+                            </div>
+                            <div class="form-group">
+                                <label>Official Support WhatsApp Number</label>
+                                <input type="text" class="form-control" value="+919876543210">
+                            </div>
+                            <div class="form-group">
+                                <label>Currency Symbol</label>
+                                <input type="text" class="form-control" value="₹">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-overlay" onclick="closeProductModal()"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Product</h3>
+                <button class="close-btn" onclick="closeProductModal()">&times;</button>
+            </div>
+            <form id="productForm" onsubmit="handleProductSubmit(event)">
+                <input type="hidden" id="productId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="prodName">Product Name*</label>
+                        <input type="text" id="prodName" class="form-control" required placeholder="e.g., Gold Radiance Serum">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prodCategory">Category*</label>
+                            <select id="prodCategory" class="form-control" required>
+                                <option value="Skin Care">Skin Care</option>
+                                <option value="Hair Care">Hair Care</option>
+                                <option value="Combos">Combos</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="prodStock">Stock Status*</label>
+                            <select id="prodStock" class="form-control" required>
+                                <option value="In Stock">In Stock</option>
+                                <option value="Low Stock">Low Stock</option>
+                                <option value="Out of Stock">Out of Stock</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prodPrice">Price (₹)*</label>
+                            <input type="number" id="prodPrice" class="form-control" required placeholder="1299">
+                        </div>
+                        <div class="form-group">
+                            <label for="prodDiscountPrice">Original/Discounted Price (₹)</label>
+                            <input type="number" id="prodDiscountPrice" class="form-control" placeholder="1499">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prodTags">Key Features / Badge Tag</label>
+                        <input type="text" id="prodTags" class="form-control" placeholder="e.g., 100% Chemical Free">
+                    </div>
+
+                    <!-- File Input for Product Image -->
+                    <div class="form-group">
+                        <label for="prodImageFile">Product Image File</label>
+                        <input type="file" id="prodImageFile" class="form-control" accept="image/*" onchange="previewSelectedImage(event)">
+                        <div class="image-preview-container">
+                            <img id="imagePreview" class="image-preview" src="" alt="Image Preview">
+                            <small id="imagePreviewText" style="color: var(--text-muted); display: none;">Current Image Preview</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prodDescription">Description / Features</label>
+                        <textarea id="prodDescription" class="form-control" rows="3" placeholder="Product details and benefits..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        /* --- Mock Database & Credentials --- */
+        const MOCK_ADMIN = {
+            email: "admin@mirellaglow.com",
+            password: "sana123",
+            name: "Sana Sakina",
+            role: "Store Administrator"
+        };
+
+        const INITIAL_PRODUCTS = [
+            {
+                id: "p1",
+                title: "Mirella Korean Glass Whitening Serum",
+                features: "Hydration & Hyper-pigmentation Reduction | 100% Chemical-Free, Paraben-Free, Cruelty-Free.",
+                badge: "100% Chemical Free",
+                price: 699,
+                originalPrice: null,
+                image: "p1.jpeg",
+                category: "Skin Care",
+                stockStatus: "In Stock",
+                hasVariants: false
+            },
+            {
+                id: "p2",
+                title: "Mirella Ultra Hydrating Cleanser (60ml)",
+                features: "Gentle daily cleanser formulation tailored for specific skin concerns, achieving clarity and radiance.",
+                badge: "Hydrating Formula",
+                price: 349,
+                originalPrice: null,
+                image: "p2.jpeg",
+                category: "Skin Care",
+                stockStatus: "In Stock",
+                hasVariants: true,
+                variants: [
+                    "Acne Control (Green)",
+                    "All Skin Types (Pink)",
+                    "24K Gold Glycolic Brightening (Gold)"
+                ]
+            },
+            {
+                id: "p3",
+                title: "Mirella Dubai Saffron Whitening Cream",
+                features: "Saffron infused, visible glow in 7 days. Evens out skin tone and deeply nourishes skin cells.",
+                badge: "Bestseller",
+                price: 599,
+                originalPrice: null,
+                image: "p3.jpeg",
+                category: "Skin Care",
+                stockStatus: "In Stock",
+                hasVariants: false
+            },
+            {
+                id: "p4",
+                title: "Mirella Pro Keratin Shampoo (200ml)",
+                features: "Sulphate & Paraben-Free, for Keratin-Treated & Straightened Hair. Restores natural gloss.",
+                badge: "Hair Repair",
+                price: 499,
+                originalPrice: null,
+                image: "p4.jpeg",
+                category: "Hair Care",
+                stockStatus: "In Stock",
+                hasVariants: false
+            },
+            {
+                id: "p5",
+                title: "Mirella Pro-Keratin Hair Spa & Hair Mask",
+                features: "Omega 9 & Protein Repair for Dry & Damaged Hair. Deeply conditions from root to tip.",
+                badge: "Deep Conditioning",
+                price: 549,
+                originalPrice: null,
+                image: "p5.jpeg",
+                category: "Hair Care",
+                stockStatus: "In Stock",
+                hasVariants: false
+            },
+            {
+                id: "p6",
+                title: "Exclusive Glow & Brighten Combo Set",
+                features: "Includes Cleanser + Glass Serum + Saffron Cream (Special Discount Offer). Full care regimen.",
+                badge: "Special Offer",
+                price: 1300,
+                originalPrice: 1900,
+                image: "p7.jpg",
+                category: "Combos",
+                stockStatus: "In Stock",
+                hasVariants: false
+            }
+        ];
+
+        let currentBase64Image = "";
+        let products = [];
+        let orders = [];
+        let appointments = [
+            {
+                id: "APT-101",
+                clientName: "Riya Kapoor",
+                contact: "+919711223344",
+                treatment: "Gold Facial Cosmetology",
+                datetime: "2026-08-05 14:00",
+                status: "Confirmed"
+            },
+            {
+                id: "APT-102",
+                clientName: "Sneha Reddy",
+                contact: "+919844556677",
+                treatment: "Skin Rejuvenation Therapy",
+                datetime: "2026-08-06 11:30",
+                status: "Pending"
+            }
+        ];
+
+        /* --- Shared Storage Functions --- */
+        function loadStorageData() {
+            const storedProds = localStorage.getItem('mg_products');
+            if (storedProds) {
+                products = JSON.parse(storedProds);
+            } else {
+                products = INITIAL_PRODUCTS;
+                localStorage.setItem('mg_products', JSON.stringify(products));
+            }
+
+            const storedOrders = localStorage.getItem('mg_orders');
+            if (storedOrders) {
+                orders = JSON.parse(storedOrders);
+            } else {
+                orders = [];
+                localStorage.setItem('mg_orders', JSON.stringify(orders));
+            }
+        }
+
+        function saveProductsToStorage() {
+            localStorage.setItem('mg_products', JSON.stringify(products));
+        }
+
+        function saveOrdersToStorage() {
+            localStorage.setItem('mg_orders', JSON.stringify(orders));
+        }
+
+        /* --- Application Lifecycle & Auth Guard --- */
+        document.addEventListener("DOMContentLoaded", () => {
+            loadStorageData();
+            checkAuthState();
+            initNavigation();
+
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'mg_orders' || e.key === 'mg_products') {
+                    loadStorageData();
+                    renderAllModules();
+                }
+            });
+        });
+
+        function checkAuthState() {
+            const isAuthenticated = sessionStorage.getItem("mg_admin_session") === "active";
+            const loginScreen = document.getElementById("loginScreen");
+            const dashboardContainer = document.querySelector(".dashboard-container");
+
+            if (isAuthenticated) {
+                loginScreen.classList.add("hidden");
+                dashboardContainer.classList.remove("protected");
+                renderAllModules();
+            } else {
+                loginScreen.classList.remove("hidden");
+                dashboardContainer.classList.add("protected");
+            }
+        }
+
+        /* --- Login & Logout Controllers --- */
+        function handleLogin(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById("adminEmail").value.trim();
+            const passwordInput = document.getElementById("adminPassword").value.trim();
+            const errorMsg = document.getElementById("authErrorMsg");
+
+            if (emailInput === MOCK_ADMIN.email && passwordInput === MOCK_ADMIN.password) {
+                errorMsg.classList.remove("visible");
+                sessionStorage.setItem("mg_admin_session", "active");
+                sessionStorage.setItem("mg_admin_user", JSON.stringify({ name: MOCK_ADMIN.name, email: MOCK_ADMIN.email }));
+                checkAuthState();
+            } else {
+                errorMsg.classList.add("visible");
+            }
+        }
+
+        function handleLogout() {
+            if (confirm("Are you sure you want to log out of Mirella Glow Admin?")) {
+                sessionStorage.removeItem("mg_admin_session");
+                sessionStorage.removeItem("mg_admin_user");
+                checkAuthState();
+            }
+        }
+
+        /* --- Render Modules & Data State --- */
+        function renderAllModules() {
+            renderDashboardStats();
+            renderRecentOrders();
+            renderProducts();
+            renderOrders();
+            renderAppointments();
+        }
+
+        function initNavigation() {
+            const navItems = document.querySelectorAll(".nav-item");
+            navItems.forEach(item => {
+                item.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const tabTarget = item.getAttribute("data-tab");
+
+                    navItems.forEach(nav => nav.classList.remove("active"));
+                    item.classList.add("active");
+
+                    document.querySelectorAll(".tab-content").forEach(tab => {
+                        tab.classList.remove("active");
+                    });
+                    document.getElementById(`tab-${tabTarget}`).classList.add("active");
+
+                    if (window.innerWidth < 992) {
+                        toggleSidebar(false);
+                    }
+                });
+            });
+
+            const logoutBtn = document.querySelector(".logout-btn");
+            if (logoutBtn) {
+                logoutBtn.onclick = handleLogout;
+            }
+        }
+
+        function toggleSidebar(forceState) {
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("sidebarOverlay");
+            
+            if (typeof forceState === "boolean") {
+                sidebar.classList.toggle("active", forceState);
+                overlay.classList.toggle("active", forceState);
+            } else {
+                sidebar.classList.toggle("active");
+                overlay.classList.toggle("active");
+            }
+        }
+
+        function renderDashboardStats() {
+            document.getElementById("metricActiveProducts").textContent = products.length;
+            
+            const pendingOrders = orders.filter(o => o.status === "Pending" || o.status === "Processing").length;
+            document.getElementById("metricPendingOrders").textContent = pendingOrders;
+            document.getElementById("notificationBadge").textContent = pendingOrders;
+            
+            const totalSales = orders.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+            document.getElementById("metricTotalSales").textContent = `₹${totalSales}`;
+
+            document.getElementById("metricAppointments").textContent = appointments.length;
+        }
+
+        function renderRecentOrders() {
+            const tbody = document.getElementById("recentOrdersTableBody");
+            tbody.innerHTML = "";
+
+            if (orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 15px; color:#888;">No orders recorded yet.</td></tr>`;
+                return;
+            }
+
+            orders.slice(0, 5).forEach(order => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><strong>${order.id}</strong></td>
+                    <td>${order.customerName}</td>
+                    <td>${order.items}</td>
+                    <td>₹${order.total}</td>
+                    <td><span class="badge-status ${getStatusBadgeClass(order.status)}">${order.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderProducts() {
+            const tbody = document.getElementById("productsTableBody");
+            tbody.innerHTML = "";
+
+            products.forEach(prod => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><img src="${prod.image}" alt="${prod.title}" class="img-thumb"></td>
+                    <td>
+                        <strong>${prod.title}</strong>
+                        <br><small style="color: var(--text-muted);">${prod.badge || ''}</small>
+                    </td>
+                    <td>${prod.category || 'General'}</td>
+                    <td>₹${prod.price} ${prod.originalPrice ? `<span style="text-decoration:line-through; font-size:0.8rem; color:#888;">₹${prod.originalPrice}</span>` : ''}</td>
+                    <td><span class="badge-status ${getStockBadgeClass(prod.stockStatus || 'In Stock')}">${prod.stockStatus || 'In Stock'}</span></td>
+                    <td>
+                        <button class="btn-action" title="Edit Product" onclick="editProduct('${prod.id}')">✏️</button>
+                        <button class="btn-action" title="Delete Product" onclick="deleteProduct('${prod.id}')">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderOrders() {
+            const tbody = document.getElementById("ordersTableBody");
+            tbody.innerHTML = "";
+
+            if (orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 15px; color:#888;">No orders recorded yet.</td></tr>`;
+                return;
+            }
+
+            orders.forEach(order => {
+                const encodedMsg = encodeURIComponent(`Hello ${order.customerName}, regarding your Mirella Glow order ${order.id} (${order.items}):`);
+                const waUrl = `https://wa.me/${order.phone.replace(/[^0-9]/g, '')}?text=${encodedMsg}`;
+
+                const proofSnippet = order.screenshot 
+                    ? `<br><a href="${order.screenshot}" target="_blank" style="font-size:0.75rem; color:var(--primary-gold-hover);">🖼️ View Payment Proof</a>` 
+                    : '';
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><strong>${order.id}</strong></td>
+                    <td><strong>${order.customerName}</strong>${proofSnippet}</td>
+                    <td>${order.phone}</td>
+                    <td>${order.items}</td>
+                    <td>₹${order.total}</td>
+                    <td>${order.date}</td>
+                    <td><span class="badge-status ${getStatusBadgeClass(order.status)}">${order.status}</span></td>
+                    <td>
+                        <a href="${waUrl}" target="_blank" class="btn btn-whatsapp">
+                            💬 Reply WhatsApp
+                        </a>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderAppointments() {
+            const tbody = document.getElementById("appointmentsTableBody");
+            tbody.innerHTML = "";
+
+            appointments.forEach(apt => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><strong>${apt.clientName}</strong></td>
+                    <td>${apt.contact}</td>
+                    <td>${apt.treatment}</td>
+                    <td>${apt.datetime}</td>
+                    <td><span class="badge-status ${getStatusBadgeClass(apt.status)}">${apt.status}</span></td>
+                    <td>
+                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="toggleAppointmentStatus('${apt.id}')">
+                            Toggle Status
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        /* --- Image Upload & Preview Handler --- */
+        function previewSelectedImage(event) {
+            const file = event.target.files[0];
+            const previewImg = document.getElementById("imagePreview");
+            const previewText = document.getElementById("imagePreviewText");
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentBase64Image = e.target.result;
+                    previewImg.src = currentBase64Image;
+                    previewImg.style.display = "block";
+                    previewText.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        /* --- Modal Operations & CRUD --- */
+        function openProductModal(editId = null) {
+            const modal = document.getElementById("productModal");
+            const form = document.getElementById("productForm");
+            const previewImg = document.getElementById("imagePreview");
+            const previewText = document.getElementById("imagePreviewText");
+            
+            form.reset();
+            document.getElementById("productId").value = "";
+            currentBase64Image = "";
+            previewImg.style.display = "none";
+            previewText.style.display = "none";
+
+            if (editId) {
+                const prod = products.find(p => p.id === editId);
+                if (prod) {
+                    document.getElementById("modalTitle").textContent = "Edit Product";
+                    document.getElementById("productId").value = prod.id;
+                    document.getElementById("prodName").value = prod.title;
+                    document.getElementById("prodCategory").value = prod.category || "Skin Care";
+                    document.getElementById("prodStock").value = prod.stockStatus || "In Stock";
+                    document.getElementById("prodPrice").value = prod.price;
+                    document.getElementById("prodDiscountPrice").value = prod.originalPrice || "";
+                    document.getElementById("prodTags").value = prod.badge || "";
+                    document.getElementById("prodDescription").value = prod.features || "";
+                    
+                    if (prod.image) {
+                        currentBase64Image = prod.image;
+                        previewImg.src = prod.image;
+                        previewImg.style.display = "block";
+                        previewText.style.display = "block";
+                    }
+                }
+            } else {
+                document.getElementById("modalTitle").textContent = "Add New Product";
+            }
+
+            modal.classList.add("active");
+        }
+
+        function closeProductModal() {
+            document.getElementById("productModal").classList.remove("active");
+        }
+
+        function handleProductSubmit(e) {
+            e.preventDefault();
+
+            const id = document.getElementById("productId").value;
+            const title = document.getElementById("prodName").value;
+            const category = document.getElementById("prodCategory").value;
+            const stockStatus = document.getElementById("prodStock").value;
+            const price = parseFloat(document.getElementById("prodPrice").value);
+            const originalPrice = parseFloat(document.getElementById("prodDiscountPrice").value) || null;
+            const badge = document.getElementById("prodTags").value;
+            const image = currentBase64Image || "https://via.placeholder.com/150/D4AF37/FFFFFF?text=Product";
+            const features = document.getElementById("prodDescription").value;
+
+            if (id) {
+                const index = products.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    products[index] = { ...products[index], id, title, category, stockStatus, price, originalPrice, badge, image, features };
+                }
+            } else {
+                const newProd = {
+                    id: `p_${Date.now()}`,
+                    title, category, stockStatus, price, originalPrice, badge, image, features, hasVariants: false
+                };
+                products.push(newProd);
+            }
+
+            saveProductsToStorage();
+            renderAllModules();
+            closeProductModal();
+        }
+
+        function editProduct(id) {
+            openProductModal(id);
+        }
+
+        function deleteProduct(id) {
+            if (confirm("Are you sure you want to delete this product?")) {
+                products = products.filter(p => p.id !== id);
+                saveProductsToStorage();
+                renderAllModules();
+            }
+        }
+
+        function toggleAppointmentStatus(id) {
+            const apt = appointments.find(a => a.id === id);
+            if (apt) {
+                apt.status = apt.status === "Confirmed" ? "Pending" : "Confirmed";
+                renderAppointments();
+            }
+        }
+
+        function handleGlobalSearch(event) {
+            const query = event.target.value.toLowerCase();
+            const productRows = document.querySelectorAll("#productsTableBody tr");
+            productRows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(query) ? "" : "none";
+            });
+        }
+
+        function getStatusBadgeClass(status) {
+            switch (status) {
+                case "Completed":
+                case "Confirmed":
+                    return "status-success";
+                case "Pending":
+                case "Processing":
+                    return "status-warning";
+                default:
+                    return "status-danger";
+            }
+        }
+
+        function getStockBadgeClass(stock) {
+            switch (stock) {
+                case "In Stock":
+                    return "status-success";
+                case "Low Stock":
+                    return "status-warning";
+                case "Out of Stock":
+                    return "status-danger";
+                default:
+                    return "status-success";
+            }
+        }
+    </script>
+</body>
+</html>

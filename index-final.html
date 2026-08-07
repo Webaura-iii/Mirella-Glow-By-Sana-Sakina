@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mirella Glow | 100% Chemical-Free Skin & Hair Care by Sana Sakina</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       1. VARIABLES & RESET
+       ========================================================================== */
+    :root {
+      --primary-gold: #D4AF37;
+      --primary-gold-dark: #C5A059;
+      --secondary-dark: #1A1A1A;
+      --secondary-warm-black: #2B2B2B;
+      --accent-orchid: #8E24AA;
+      --accent-lavender: #F3E5F5;
+      --bg-cream: #FAFAFA;
+      --bg-white: #FFFFFF;
+      --text-dark: #2C2C2C;
+      --text-muted: #555555;
+      --border-color: #EAEAEA;
+      
+      --font-heading: 'Cinzel', serif;
+      --font-body: 'Montserrat', sans-serif;
+      
+      --shadow-sm: 0 4px 10px rgba(0,0,0,0.05);
+      --shadow-md: 0 8px 25px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      letter-spacing: 0.5px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      font-family: var(--font-body);
+      border: none;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    /* ==========================================================================
+       2. HEADER & NAVIGATION
+       ========================================================================== */
+    .header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      z-index: 100;
+      padding: 0.8rem 0;
+    }
+
+    .nav-container {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .header-logo-icon {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .brand-main {
+      font-family: var(--font-heading);
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #111111;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-family: var(--font-body);
+      font-size: clamp(0.65rem, 1vw, 0.75rem);
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      color: #C5A059;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      position: fixed;
+      top: 66px;
+      left: -100%;
+      width: 100%;
+      height: calc(100vh - 66px);
+      background-color: var(--bg-white);
+      flex-direction: column;
+      align-items: center;
+      padding-top: 2.5rem;
+      gap: 2rem;
+      display: flex;
+      transition: var(--transition);
+      box-shadow: var(--shadow-md);
+      list-style: none;
+    }
+
+    .nav-links.active {
+      left: 0;
+    }
+
+    .nav-link {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #333333;
+      padding: 0.5rem 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: #000000;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .cart-icon-btn {
+      background: none;
+      position: relative;
+      font-size: 1.5rem;
+      color: var(--secondary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0.4rem;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: 2px;
+      right: 0px;
+      background-color: #8E24AA;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0.5rem;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background-color: var(--secondary-dark);
+      transition: var(--transition);
+    }
+
+    @media (min-width: 768px) {
+      .hamburger {
+        display: none;
+      }
+      .nav-links {
+        position: static;
+        height: auto;
+        width: auto;
+        background: transparent;
+        flex-direction: row;
+        padding-top: 0;
+        gap: 2rem;
+        box-shadow: none;
+      }
+      .nav-links li {
+        display: flex;
+        align-items: center;
+      }
+      .nav-link {
+        font-size: 0.95rem;
+        padding: 0;
+      }
+    }
+
+    /* ==========================================================================
+       3. HERO SECTION
+       ========================================================================== */
+    .hero {
+      position: relative;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 3.5rem 1.25rem;
+      color: var(--bg-white);
+      text-align: left;
+    }
+
+    .hero-video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.3) 100%);
+      z-index: 2;
+    }
+
+    .hero-container {
+      position: relative;
+      z-index: 3;
+      max-width: 1250px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 620px;
+    }
+
+    .hero-brand-logo {
+      width: clamp(90px, 15vw, 130px);
+      height: auto;
+      margin-bottom: 1.2rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+
+    .tagline-badge {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.3);
+      color: #C5A059;
+      border: 1px solid #C5A059;
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .hero-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(1.75rem, 4vw, 2.8rem);
+      line-height: 1.3;
+      color: #FFFFFF;
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero-headline span {
+      color: #C5A059;
+    }
+
+    .hero-subheadline {
+      font-family: var(--font-body);
+      font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+      color: rgba(255, 255, 255, 0.95);
+      margin-bottom: 2rem;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #C5A059;
+      color: #1A1A1A;
+      padding: 0.95rem 2.2rem;
+      min-height: 48px;
+      border-radius: 4px;
+      font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+    }
+
+    .btn-primary:hover {
+      background-color: #D4AF37;
+      transform: translateY(-2px);
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        min-height: 88vh;
+        padding: 5rem 3rem;
+      }
+    }
+
+    /* ==========================================================================
+       4. SHOP CATALOG SECTION
+       ========================================================================== */
+    .shop-section {
+      padding: clamp(2.5rem, 5vw, 4rem) 1.25rem;
+      max-width: 1250px;
+      margin: 0 auto;
+    }
+
+    .section-title-wrap {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--secondary-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .product-card {
+      background-color: var(--bg-white);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+
+    .product-image-wrap {
+      position: relative;
+      width: 100%;
+      height: clamp(240px, 30vh, 280px);
+      background-color: #F8F8F8;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.4s ease;
+      cursor: zoom-in;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: var(--secondary-dark);
+      color: var(--primary-gold);
+      font-size: 0.72rem;
+      padding: 5px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .product-details {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .product-title {
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+      font-family: var(--font-heading);
+      color: var(--secondary-dark);
+      margin-bottom: 0.5rem;
+      line-height: 1.35;
+    }
+
+    .product-features {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+      line-height: 1.5;
+    }
+
+    .more-link {
+      color: var(--primary-gold-dark);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+      padding: 0.2rem 0;
+    }
+
+    .product-variant-container {
+      min-height: 44px;
+      margin-bottom: 0.8rem;
+    }
+
+    .product-variant-select {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--secondary-dark);
+      background-color: #FFF;
+      outline: none;
+    }
+
+    .product-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.8rem;
+      border-top: 1px dashed var(--border-color);
+      margin-top: auto;
+    }
+
+    .price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .product-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--secondary-dark);
+    }
+
+    .original-price {
+      font-size: 0.9rem;
+      color: #888;
+      text-decoration: line-through;
+    }
+
+    .btn-add-cart {
+      background-color: var(--secondary-dark);
+      color: var(--bg-white);
+      padding: 0.6rem 1rem;
+      min-height: 44px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-add-cart:hover {
+      background-color: var(--primary-gold-dark);
+    }
+
+    /* ==========================================================================
+       5. ABOUT SECTION
+       ========================================================================== */
+    .about-section {
+      background-color: var(--bg-white);
+      padding: clamp(2.5rem, 5vw, 4rem) 1.25rem;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .about-container {
+      max-width: 850px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--secondary-dark);
+      margin-bottom: 1rem;
+    }
+
+    .about-content {
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+      text-align: justify;
+    }
+
+    .badges-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .badge-card {
+      background: var(--bg-cream);
+      padding: 0.8rem 1.2rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--secondary-dark);
+    }
+
+    /* ==========================================================================
+       6. CART DRAWER & FORM
+       ========================================================================== */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .cart-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      background: var(--bg-white);
+      z-index: 1001;
+      box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      transition: right 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .cart-drawer.active {
+      right: 0;
+    }
+
+    .cart-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-title {
+      font-size: 1.2rem;
+      color: var(--secondary-dark);
+    }
+
+    .close-cart {
+      background: none;
+      font-size: 1.8rem;
+      color: var(--text-muted);
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-body {
+      padding: 1.25rem;
+      flex-grow: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .cart-empty-msg {
+      text-align: center;
+      color: var(--text-muted);
+      margin-top: 3rem;
+      font-size: 1rem;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      align-items: center;
+    }
+
+    .cart-item-thumb {
+      width: 60px;
+      height: 60px;
+      background: var(--bg-cream);
+      border-radius: 4px;
+      object-fit: cover;
+    }
+
+    .cart-item-details {
+      flex-grow: 1;
+    }
+
+    .cart-item-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--secondary-dark);
+    }
+
+    .cart-item-variant {
+      font-size: 0.8rem;
+      color: var(--accent-orchid);
+      margin-top: 2px;
+    }
+
+    .cart-item-price {
+      font-size: 0.9rem;
+      color: var(--primary-gold-dark);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .qty-btn {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-color);
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .qty-display {
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0 0.3rem;
+    }
+
+    .remove-item {
+      margin-left: auto;
+      background: none;
+      color: #e53935;
+      font-size: 1.1rem;
+      min-width: 36px;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-footer {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-cream);
+    }
+
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .cart-total-row.grand {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--secondary-dark);
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .btn-checkout {
+      width: 100%;
+      min-height: 48px;
+      background-color: var(--secondary-dark);
+      color: var(--primary-gold);
+      padding: 0.8rem;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .checkout-form {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .checkout-form.active {
+      display: flex;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--secondary-dark);
+    }
+
+    .form-group input, .form-group textarea {
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+    }
+
+    .confirmation-card {
+      margin: 1rem;
+      padding: 1.2rem;
+      border-radius: 8px;
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      text-align: center;
+    }
+
+    .status-message {
+      color: #059669;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .submit-btn {
+      background-color: #059669;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.2rem;
+      min-height: 44px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      width: 100%;
+    }
+
+    /* ==========================================================================
+       7. PRODUCT & IMAGE MODAL LIGHTBOX
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .product-modal-content {
+      background: var(--bg-white);
+      max-width: 750px;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--secondary-dark);
+      z-index: 10;
+    }
+
+    .modal-img-wrap {
+      background: #F8F8F8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 300px;
+    }
+
+    .modal-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: zoom-in;
+    }
+
+    .modal-info {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal-title {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--secondary-dark);
+    }
+
+    .modal-description {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    @media (min-width: 768px) {
+      .product-modal-content {
+        grid-template-columns: 1fr 1fr;
+        max-height: 90vh;
+        overflow-y: visible;
+      }
+      .modal-img-wrap {
+        max-height: 100%;
+      }
+      .modal-info {
+        padding: 2rem;
+      }
+    }
+
+    /* Image Zoom Lightbox */
+    .zoom-lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.92);
+      z-index: 3000;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .zoom-lightbox.active {
+      display: flex;
+    }
+
+    .zoom-container {
+      overflow: hidden;
+      position: relative;
+      width: 90%;
+      height: 75vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .zoom-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.1s ease-out;
+      cursor: grab;
+    }
+
+    .zoom-controls {
+      position: absolute;
+      bottom: 24px;
+      display: flex;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.25);
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      backdrop-filter: blur(8px);
+    }
+
+    .zoom-btn {
+      background: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      min-height: 40px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .zoom-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 2.2rem;
+      background: none;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ==========================================================================
+       8. FOOTER SECTION
+       ========================================================================== */
+    .footer {
+      background-color: var(--secondary-dark);
+      color: var(--bg-cream);
+      padding: clamp(3rem, 5vw, 4.5rem) 1.25rem 1.8rem;
+    }
+
+    .footer-container {
+      max-width: 1250px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-col h4 {
+      font-size: 1.1rem;
+      color: var(--primary-gold);
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-text {
+      font-size: 0.9rem;
+      color: #CCC;
+      line-height: 1.6;
+    }
+
+    .treatment-notice {
+      background-color: rgba(212, 175, 55, 0.12);
+      border-left: 3px solid var(--primary-gold);
+      padding: 0.8rem 1rem;
+      font-size: 0.85rem;
+      color: var(--primary-gold);
+      margin-top: 1rem;
+      line-height: 1.4;
+    }
+
+    .footer-contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: #CCC;
+      padding: 0.2rem 0;
+    }
+
+    .contact-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      fill: currentColor;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.6rem;
+      font-size: 0.9rem;
+      color: #CCC;
+      line-height: 1.5;
+    }
+
+    .footer-bottom {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding-top: 1.8rem;
+      border-top: 1px solid #333;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    @media (min-width: 768px) {
+      .footer-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER / NAVIGATION -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="#" class="nav-brand">
+        <img src="Logo-transparent.png" alt="Sana Sakina Emblem" class="header-logo-icon" />
+        <div class="nav-brand-text">
+          <span class="brand-main">MIRELLA GLOW</span>
+          <span class="brand-sub">BY SANA SAKINA</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#shop" class="nav-link">Shop Collection</a></li>
+          <li><a href="#about" class="nav-link">About Expert</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="cart-icon-btn" id="openCartBtn" aria-label="View Cart">
+          🛒
+          <span class="cart-badge" id="cartBadgeCount">0</span>
+        </button>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+      <video class="hero-video-bg" autoplay loop muted playsinline>
+        <source src="Background.mp4" type="video/mp4" />
+      </video>
+
+      <div class="hero-overlay"></div>
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <img src="https://ibb.co/672YsCyK" alt="Sana Sakina Logo" class="hero-brand-logo" />
+          <span class="tagline-badge">100% SULPHATE & PARABEN-FREE</span>
+          <h1 class="hero-headline">NOURISH YOUR NATURAL BEAUTY WITH <span>CHEMICAL-FREE</span> CARE</h1>
+          <p class="hero-subheadline">Handcrafted & Expert-Formulated Skin & Hair Care Solutions designed by Certified Cosmetologist Sana Sakina.</p>
+          <a href="#shop" class="btn-primary">EXPLORE COLLECTION</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATALOG / PRODUCTS SECTION -->
+    <section class="shop-section" id="shop">
+      <div class="section-title-wrap">
+        <h2 class="section-title">The Product Collection</h2>
+        <p class="section-subtitle">Pure, Cruelty-Free Formulations for Hair & Skin</p>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- Dynamic Render -->
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about-section" id="about">
+      <div class="about-container">
+        <h2 class="about-title">Meet the Expert Behind Mirella Glow</h2>
+        <p class="about-content">
+          Founded by <strong>Sana Sakina</strong>, Certified Cosmetologist and Professional Makeup Artist. Mirella Glow offers 100% chemical-free, sulphate-free, and paraben-free skin and hair solutions. Every product is expert-formulated to enhance natural beauty safely and effectively.
+        </p>
+        <div class="badges-wrapper">
+          <div class="badge-card">🌿 100% Chemical Free</div>
+          <div class="badge-card">🐰 Cruelty-Free</div>
+          <div class="badge-card">🔬 Expert Formulated</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CART DRAWER & OVERLAY -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3 class="cart-title" id="cartTitle">Your Order</h3>
+      <button class="close-cart" id="closeCartBtn">&times;</button>
+    </div>
+    
+    <div class="cart-body" id="cartItemsContainer">
+      <!-- Dynamic Render -->
+    </div>
+
+    <!-- Personal Details Form Step -->
+    <form class="checkout-form cart-body" id="checkoutForm">
+      <div class="form-group">
+        <label for="buyerName">Full Name *</label>
+        <input type="text" id="buyerName" required placeholder="Enter your full name" />
+      </div>
+      <div class="form-group">
+        <label for="buyerPhone">Phone Number *</label>
+        <input type="tel" id="buyerPhone" required placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}" />
+      </div>
+      <div class="form-group">
+        <label for="buyerAddress">Delivery Address *</label>
+        <textarea id="buyerAddress" rows="3" required placeholder="House/Flat No., Street, City, Pincode"></textarea>
+      </div>
+    </form>
+
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">₹0</span>
+      </div>
+      <div class="cart-total-row grand">
+        <span>Total</span>
+        <span id="cartTotal">₹0</span>
+      </div>
+      <button class="btn-checkout" id="orderNowBtn">
+        Order Now
+      </button>
+    </div>
+
+    <div id="upi-confirm-box" class="confirmation-card" style="display: none;">
+      <p class="status-message">Upload screenshot of payment for confirmation</p>
+      <form id="upload-form" onsubmit="handleUpiUploadSubmit(event)">
+        <input type="file" id="screenshot-input" accept="image/*" required style="margin-bottom: 0.75rem; width: 100%;" />
+        <button type="submit" class="submit-btn">Upload & Confirm</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div class="modal-backdrop" id="productModal">
+    <div class="product-modal-content">
+      <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+      <div class="modal-img-wrap">
+        <img id="modalImg" src="" alt="Product Image" />
+      </div>
+      <div class="modal-info">
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <div class="price-wrap">
+          <span class="product-price" id="modalPrice"></span>
+          <span class="original-price" id="modalOriginalPrice"></span>
+        </div>
+        <p class="modal-description" id="modalDescription"></p>
+        <div id="modalVariantContainer"></div>
+        <button class="btn-add-cart" id="modalAddCartBtn" style="padding: 0.75rem 1rem;">Add To Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMAGE LIGHTBOX WITH ZOOM -->
+  <div class="zoom-lightbox" id="zoomLightbox">
+    <button class="zoom-close" id="closeZoomBtn">&times;</button>
+    <div class="zoom-container" id="zoomContainer">
+      <img src="" alt="Zoomable Image" class="zoom-img" id="zoomImg" />
+    </div>
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoomInBtn">+</button>
+      <button class="zoom-btn" id="zoomResetBtn">Reset</button>
+      <button class="zoom-btn" id="zoomOutBtn">-</button>
+    </div>
+  </div>
+
+  <!-- FOOTER SECTION -->
+  <footer class="footer" id="contact">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Mirella Glow</h4>
+        <p class="footer-text">
+          Professional skin and hair care solutions formulated by Sana Sakina. Enhancing your true glow naturally.
+        </p>
+        <div class="treatment-notice">
+          📍 All Skin Treatments Available | Appointment Compulsory
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Connect & Follow Us</h4>
+        <ul class="footer-contact-list">
+          <li>
+            <a href="https://instagram.com/sana_sakina_91" target="_blank" rel="noopener" class="contact-item">
+              <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              <span>Instagram (@sana_sakina_91)</span>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:ansarisanasakina59@gmail.com" class="contact-item">
+              <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 6.013-9.518-6.013h19.036zm-19.518 14v-11.765l10 6.319 10-6.319v11.765h-20z"/>
+              </svg>
+              <span>ansarisanasakina59@gmail.com</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Location</h4>
+        <ul class="footer-links">
+          <li>SS Academy, 72RW+C3C, Nalapar, Narpoli, Bhiwandi, Maharashtra 421305, India</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; 2026 Mirella Glow by Sana Sakina. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- VANILLA JAVASCRIPT -->
+  <script>
+    // Config: Update your UPI VPA details here
+    const MERCHANT_UPI_ID = "ansarisanasakina59@okaxis"; // Replace with actual UPI ID
+    const MERCHANT_NAME = "Mirella Glow";
+
+    const DEFAULT_PRODUCTS = [
+      {
+        id: "p1",
+        title: "Mirella Korean Glass Whitening Serum",
+        features: "Hydration & Hyper-pigmentation Reduction | 100% Chemical-Free, Paraben-Free, Cruelty-Free.",
+        badge: "100% Chemical Free",
+        price: 699,
+        originalPrice: null,
+        image: "https://ibb.co/PZX6jLVQ",
+        hasVariants: false
+      },
+      {
+        id: "p2",
+        title: "Mirella Ultra Hydrating Cleanser (60ml)",
+        features: "Gentle daily cleanser formulation tailored for specific skin concerns, achieving clarity and radiance.",
+        badge: "Hydrating Formula",
+        price: 349,
+        originalPrice: null,
+        image: "https://ibb.co/JFpX2d1y",
+        hasVariants: true,
+        variants: [
+          "Acne Control (Green)",
+          "All Skin Types (Pink)",
+          "24K Gold Glycolic Brightening (Gold)"
+        ]
+      },
+      {
+        id: "p3",
+        title: "Mirella Dubai Saffron Whitening Cream",
+        features: "Saffron infused, visible glow in 7 days. Evens out skin tone and deeply nourishes skin cells.",
+        badge: "Bestseller",
+        price: 599,
+        originalPrice: null,
+        image: "https://ibb.co/ymrbZVdw",
+        hasVariants: false
+      },
+      {
+        id: "p4",
+        title: "Mirella Pro Keratin Shampoo (200ml)",
+        features: "Sulphate & Paraben-Free, for Keratin-Treated & Straightened Hair. Restores natural gloss.",
+        badge: "Hair Repair",
+        price: 499,
+        originalPrice: null,
+        image: "https://ibb.co/sv2mjcxV",
+        hasVariants: false
+      },
+      {
+        id: "p5",
+        title: "Mirella Pro-Keratin Hair Spa & Hair Mask",
+        features: "Omega 9 & Protein Repair for Dry & Damaged Hair. Deeply conditions from root to tip.",
+        badge: "Deep Conditioning",
+        price: 549,
+        originalPrice: null,
+        image: "https://ibb.co/7tYkCJNR",
+        hasVariants: false
+      }
+      // {
+      //   id: "p6",
+      //   title: "Exclusive Glow & Brighten Combo Set",
+      //   features: "Includes Cleanser + Glass Serum + Saffron Cream (Special Discount Offer). Full care regimen.",
+      //   badge: "Special Offer",
+      //   price: 1300,
+      //   originalPrice: 1900,
+      //   image: "p7.jpg",
+      //   hasVariants: false
+      // }
+    ];
+
+    let PRODUCTS = [];
+    let cart = [];
+    let checkoutStep = 'cart';
+    let pendingOrderDetails = null;
+
+    let zoomScale = 1;
+    let isDragging = false;
+    let startX = 0, startY = 0, translateX = 0, translateY = 0;
+
+    const productGrid = document.getElementById('productGrid');
+    const openCartBtn = document.getElementById('openCartBtn');
+    const closeCartBtn = document.getElementById('closeCartBtn');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const checkoutForm = document.getElementById('checkoutForm');
+    const cartTitle = document.getElementById('cartTitle');
+    const cartSubtotalEl = document.getElementById('cartSubtotal');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const cartBadgeCount = document.getElementById('cartBadgeCount');
+    const orderNowBtn = document.getElementById('orderNowBtn');
+    const upiConfirmBox = document.getElementById('upi-confirm-box');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    const productModal = document.getElementById('productModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalOriginalPrice = document.getElementById('modalOriginalPrice');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalVariantContainer = document.getElementById('modalVariantContainer');
+    const modalAddCartBtn = document.getElementById('modalAddCartBtn');
+
+    const zoomLightbox = document.getElementById('zoomLightbox');
+    const closeZoomBtn = document.getElementById('closeZoomBtn');
+    const zoomImg = document.getElementById('zoomImg');
+    const zoomInBtn = document.getElementById('zoomInBtn');
+    const zoomOutBtn = document.getElementById('zoomOutBtn');
+    const zoomResetBtn = document.getElementById('zoomResetBtn');
+
+    function loadProducts() {
+      const stored = localStorage.getItem('mg_products');
+      if (stored) {
+        PRODUCTS = JSON.parse(stored);
+      } else {
+        PRODUCTS = DEFAULT_PRODUCTS;
+        localStorage.setItem('mg_products', JSON.stringify(PRODUCTS));
+      }
+    }
+
+    function truncateText(text, limit = 60) {
+      if (!text) return '';
+      if (text.length <= limit) return text;
+      return text.substring(0, limit) + '...';
+    }
+
+    function renderProducts() {
+      productGrid.innerHTML = PRODUCTS.map(product => {
+        const featuresText = product.features || '';
+        const isLong = featuresText.length > 60;
+        const displayText = isLong ? truncateText(featuresText, 60) : featuresText;
+        const moreBtn = isLong ? `<span class="more-link" onclick="openProductModal(event, '${product.id}')">(...more)</span>` : '';
+
+        const variantSelect = `<div class="product-variant-container" onclick="event.stopPropagation()">
+          ${product.hasVariants && product.variants && product.variants.length > 0
+            ? `<select class="product-variant-select" id="variant-${product.id}">
+                ${product.variants.map(v => `<option value="${v}">${v}</option>`).join('')}
+               </select>`
+            : ''}
+        </div>`;
+
+        const strikePrice = product.originalPrice 
+          ? `<span class="original-price">₹${product.originalPrice}</span>` 
+          : '';
+
+        return `
+          <div class="product-card" onclick="openProductModal(event, '${product.id}')">
+            <div class="product-image-wrap">
+              ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+              <img 
+                src="${product.image}" 
+                alt="${product.title}" 
+                class="product-img" 
+                loading="lazy"
+                onclick="openZoomLightbox(event, '${product.image}')"
+              />
+            </div>
+            <div class="product-details">
+              <div>
+                <h3 class="product-title">${product.title}</h3>
+                <p class="product-features">${displayText}</p>
+                ${moreBtn}
+              </div>
+              
+              ${variantSelect}
+              
+              <div class="product-bottom" onclick="event.stopPropagation()">
+                <div class="price-wrap">
+                  <span class="product-price">₹${product.price}</span>
+                  ${strikePrice}
+                </div>
+                <button class="btn-add-cart" onclick="handleAddToCart('${product.id}')">Add To Cart</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderCart() {
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = `<p class="cart-empty-msg">Your cart is currently empty.</p>`;
+        cartSubtotalEl.textContent = '₹0';
+        cartTotalEl.textContent = '₹0';
+        cartBadgeCount.textContent = '0';
+        resetCheckoutStep();
+        return;
+      }
+
+      let totalItems = 0;
+      let grandTotal = 0;
+
+      cartItemsContainer.innerHTML = cart.map((item, index) => {
+        totalItems += item.quantity;
+        const itemTotal = item.price * item.quantity;
+        grandTotal += itemTotal;
+
+        const variantBadge = item.selectedVariant 
+          ? `<div class="cart-item-variant">${item.selectedVariant}</div>` 
+          : '';
+
+        return `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.title}" class="cart-item-thumb" />
+            <div class="cart-item-details">
+              <div class="cart-item-title">${item.title}</div>
+              ${variantBadge}
+              <div class="cart-item-price">₹${item.price}</div>
+              <div class="cart-item-controls">
+                <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                <span class="qty-display">${item.quantity}</span>
+                <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+              </div>
+            </div>
+            <button class="remove-item" onclick="removeFromCart(${index})">✕</button>
+          </div>
+        `;
+      }).join('');
+
+      cartSubtotalEl.textContent = `₹${grandTotal}`;
+      cartTotalEl.textContent = `₹${grandTotal}`;
+      cartBadgeCount.textContent = totalItems;
+    }
+
+    function handleAddToCart(productId) {
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (!product) return;
+
+      let selectedVariant = null;
+      if (product.hasVariants) {
+        const variantSelect = document.getElementById(`variant-${productId}`);
+        if (variantSelect) {
+          selectedVariant = variantSelect.value;
+        }
+      }
+
+      const existingIndex = cart.findIndex(
+        item => item.id === productId && item.selectedVariant === selectedVariant
+      );
+
+      if (existingIndex > -1) {
+        cart[existingIndex].quantity += 1;
+      } else {
+        cart.push({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.image,
+          selectedVariant: selectedVariant,
+          quantity: 1
+        });
+      }
+
+      renderCart();
+      openCartDrawer();
+    }
+
+    function updateQuantity(index, change) {
+      if (!cart[index]) return;
+      cart[index].quantity += change;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      renderCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function openCartDrawer() {
+      cartOverlay.classList.add('active');
+      cartDrawer.classList.add('active');
+    }
+
+    function closeCartDrawer() {
+      cartOverlay.classList.remove('active');
+      cartDrawer.classList.remove('active');
+    }
+
+    function resetCheckoutStep() {
+      checkoutStep = 'cart';
+      cartTitle.textContent = 'Your Order';
+      cartItemsContainer.style.display = 'flex';
+      checkoutForm.classList.remove('active');
+      upiConfirmBox.style.display = 'none';
+      orderNowBtn.style.display = 'flex';
+      orderNowBtn.textContent = 'Order Now';
+    }
+
+    orderNowBtn.addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+
+      if (checkoutStep === 'cart') {
+        checkoutStep = 'details';
+        cartTitle.textContent = 'Delivery Details';
+        cartItemsContainer.style.display = 'none';
+        checkoutForm.classList.add('active');
+        orderNowBtn.textContent = 'Proceed to Payment (UPI)';
+      } else if (checkoutStep === 'details') {
+        const name = document.getElementById('buyerName').value.trim();
+        const phone = document.getElementById('buyerPhone').value.trim();
+        const address = document.getElementById('buyerAddress').value.trim();
+
+        if (!name || !phone || !address) {
+          alert('Please fill in all required delivery details.');
+          return;
+        }
+
+        const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const itemSummary = cart.map(i => `${i.title} (${i.selectedVariant ? i.selectedVariant + ' ' : ''}x${i.quantity})`).join(', ');
+        const orderId = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
+
+        pendingOrderDetails = {
+          id: orderId,
+          customerName: name,
+          phone: phone,
+          address: address,
+          items: itemSummary,
+          total: grandTotal,
+          date: new Date().toISOString().split('T')[0],
+          status: 'Pending',
+          screenshot: null
+        };
+
+        checkoutStep = 'upi';
+        checkoutForm.classList.remove('active');
+        orderNowBtn.style.display = 'none';
+        upiConfirmBox.style.display = 'block';
+
+        // Direct Redirect to installed UPI apps via intent link
+        const upiUrl = `upi://pay?pa=${encodeURIComponent(MERCHANT_UPI_ID)}&pn=${encodeURIComponent(MERCHANT_NAME)}&tn=${encodeURIComponent('Order ' + orderId)}&am=${grandTotal}&cu=INR`;
+        window.location.href = upiUrl;
+      }
+    });
+
+    function saveOrderToAdmin(order) {
+      const storedOrders = localStorage.getItem('mg_orders');
+      let ordersList = storedOrders ? JSON.parse(storedOrders) : [];
+      ordersList.unshift(order);
+      localStorage.setItem('mg_orders', JSON.stringify(ordersList));
+    }
+
+    function handleUpiUploadSubmit(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('screenshot-input');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Please select a payment screenshot.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        if (pendingOrderDetails) {
+          pendingOrderDetails.screenshot = evt.target.result;
+          saveOrderToAdmin(pendingOrderDetails);
+
+          alert(`Thank you ${pendingOrderDetails.customerName}! Your order ${pendingOrderDetails.id} has been logged and sent for admin verification.`);
+          
+          cart = [];
+          pendingOrderDetails = null;
+          renderCart();
+          closeCartDrawer();
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function openProductModal(e, productId) {
+      if (e) e.stopPropagation();
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (!product) return;
+
+      modalImg.src = product.image;
+      modalTitle.textContent = product.title;
+      modalPrice.textContent = `₹${product.price}`;
+      modalOriginalPrice.textContent = product.originalPrice ? `₹${product.originalPrice}` : '';
+      modalDescription.textContent = product.features || '';
+
+      if (product.hasVariants && product.variants && product.variants.length > 0) {
+        modalVariantContainer.innerHTML = `
+          <label style="font-size:0.85rem; font-weight:600; display:block; margin-bottom:6px;">Select Option:</label>
+          <select id="modalVariantSelect" class="product-variant-select">
+            ${product.variants.map(v => `<option value="${v}">${v}</option>`).join('')}
+          </select>
+        `;
+      } else {
+        modalVariantContainer.innerHTML = '';
+      }
+
+      modalAddCartBtn.onclick = () => {
+        let selectedVariant = null;
+        const select = document.getElementById('modalVariantSelect');
+        if (select) selectedVariant = select.value;
+
+        const existingIndex = cart.findIndex(
+          item => item.id === product.id && item.selectedVariant === selectedVariant
+        );
+
+        if (existingIndex > -1) {
+          cart[existingIndex].quantity += 1;
+        } else {
+          cart.push({
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            image: product.image,
+            selectedVariant: selectedVariant,
+            quantity: 1
+          });
+        }
+
+        renderCart();
+        closeModal();
+        openCartDrawer();
+      };
+
+      productModal.classList.add('active');
+    }
+
+    function closeModal() {
+      productModal.classList.remove('active');
+    }
+
+    function openZoomLightbox(e, imageSrc) {
+      if (e) e.stopPropagation();
+      zoomImg.src = imageSrc;
+      zoomScale = 1;
+      translateX = 0;
+      translateY = 0;
+      updateZoomTransform();
+      zoomLightbox.classList.add('active');
+    }
+
+    function closeZoomLightbox() {
+      zoomLightbox.classList.remove('active');
+    }
+
+    function updateZoomTransform() {
+      zoomImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${zoomScale})`;
+    }
+
+    zoomInBtn.addEventListener('click', () => { zoomScale += 0.3; updateZoomTransform(); });
+    zoomOutBtn.addEventListener('click', () => { if (zoomScale > 0.5) zoomScale -= 0.3; updateZoomTransform(); });
+    zoomResetBtn.addEventListener('click', () => { zoomScale = 1; translateX = 0; translateY = 0; updateZoomTransform(); });
+
+    openCartBtn.addEventListener('click', openCartDrawer);
+    closeCartBtn.addEventListener('click', closeCartDrawer);
+    cartOverlay.addEventListener('click', closeCartDrawer);
+    closeModalBtn.addEventListener('click', closeModal);
+    closeZoomBtn.addEventListener('click', closeZoomLightbox);
+
+    hamburgerBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'mg_products') {
+        loadProducts();
+        renderProducts();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProducts();
+      renderProducts();
+      renderCart();
+    });
+  </script>
+</body>
+</html>
+
+
+
